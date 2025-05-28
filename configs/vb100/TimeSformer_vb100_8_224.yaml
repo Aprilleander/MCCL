@@ -1,0 +1,56 @@
+TRAIN:
+  ENABLE: True
+  DATASET: vb100
+  BATCH_SIZE: 32
+  EVAL_PERIOD: 5
+  CHECKPOINT_PERIOD: 2
+  AUTO_RESUME: True
+  NUM_SPATIAL_CROPS: 1
+DATA:
+  vb100_PATH_TO_DATA_DIR: "/mnt/dataset/vb100/label/v100_for/"
+  vb100_PATH_PREFIX: "/mnt/dataset/vb100/frame/"
+  NUM_FRAMES: 8
+  TRAIN_JITTER_SCALES: [256, 320]
+  TRAIN_CROP_SIZE: 224
+  TEST_CROP_SIZE: 224
+  INPUT_CHANNEL_NUM: [3]
+  INV_UNIFORM_SAMPLE: True
+  RANDOM_FLIP: False
+  REVERSE_INPUT_CHANNEL: True
+TIMESFORMER:
+  ATTENTION_TYPE: 'divided_space_time'
+  # PRETRAINED_MODEL: '/mnt/newdisk/mnt/newdisk/result/action/timesformer/3_30_vb100/checkpoints/checkpoint_epoch_00003.pyth'
+  PRETRAINED_MODEL: '/mnt/weight/vb100/3_27_for/checkpoint_epoch_00005.pyth'
+SOLVER:
+  BASE_LR: 0.005
+  LR_POLICY: steps_with_relative_lrs
+  STEPS: [0, 7, 10]
+  LRS: [1, 0.1, 0.01]
+  MAX_EPOCH: 10  #15
+  MOMENTUM: 0.9
+  WEIGHT_DECAY: 1e-4
+  OPTIMIZING_METHOD: sgd
+MODEL:
+  MODEL_NAME: vit_base_patch16_224
+  NUM_CLASSES: 100
+  ARCH: vit
+  LOSS_FUNC: cross_entropy
+  DROPOUT_RATE: 0.5
+TEST:
+  ENABLE: True
+  DATASET: vb100
+  BATCH_SIZE: 64
+  CHECKPOINT_FILE_PATH: ''
+  NUM_ENSEMBLE_VIEWS: 1
+  NUM_SPATIAL_CROPS: 3
+  CHECKPOINT_FILE_PATH : ''
+  # CHECKPOINT_FOLDER: '/mnt/newdisk/mnt/newdisk/result/Sim_init/vb100_init_2gpus_3_28/log/checkpoints/'
+  CHECKPOINT_FOLDER: '/mnt/result/kec/vb100/4_2/log/checkpoints/'
+DATA_LOADER:
+  NUM_WORKERS: 0
+  PIN_MEMORY: True
+NUM_GPUS: 2
+NUM_SHARDS: 1
+RNG_SEED: 0
+kmeans_dir: '/mnt/weight/kmeans/vb100_kmeans_4_1.pth'
+OUTPUT_DIR: '/mnt/result/kec/vb100/4_2/'
