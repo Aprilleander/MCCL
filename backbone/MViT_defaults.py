@@ -1,0 +1,121 @@
+#!/usr/bin/env python3
+# Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.
+"""Configs."""
+from fvcore.common.config import CfgNode
+#from . import custom_config
+
+_C = CfgNode()
+
+#BN
+_C.BN = CfgNode()
+_C.BN.USE_PRECISE_STATS = False
+_C.BN.NUM_BATCHES_PRECISE = 200
+
+#MViT
+_C.MVIT = CfgNode()
+
+_C.MVIT.ZERO_DECAY_POS_CLS = False
+_C.MVIT.SEP_POS_EMBED = True
+_C.MVIT.DEPTH = 16
+_C.MVIT.NUM_HEADS = 1
+_C.MVIT.EMBED_DIM = 96
+_C.MVIT.PATCH_KERNEL = [3, 7, 7]
+_C.MVIT.PATCH_STRIDE = [2, 4, 4]  #[2,4,4]
+_C.MVIT.PATCH_PADDING = [1, 3, 3]
+_C.MVIT.PATCH_2D = False
+
+_C.MVIT.MLP_RATIO = 4.0
+_C.MVIT.QKV_BIAS = True
+_C.MVIT.DROPPATH_RATE = 0.2
+_C.MVIT.NORM = "layernorm"
+_C.MVIT.NORM_STEM = False
+_C.MVIT.MODE = "conv"
+_C.MVIT.CLS_EMBED_ON = True
+_C.MVIT.DIM_MUL = [[1, 2.0], [3, 2.0], [14, 2.0]]
+_C.MVIT.HEAD_MUL = [[1, 2.0], [3, 2.0], [14, 2.0]]
+
+_C.MVIT.POOL_KVQ_KERNEL = [3, 3, 3]
+_C.MVIT.POOL_KV_STRIDE_ADAPTIVE = [1, 8, 8]
+_C.MVIT.POOL_Q_STRIDE = [[1, 1, 2, 2], [3, 1, 2, 2], [14, 1, 2, 2]]
+_C.MVIT.POOL_FIRST = False
+
+_C.MVIT.DROPOUT_RATE = 0.0
+_C.MVIT.SIGMA = 0.1
+_C.MVIT.TIME_PRUNING_LOC = [0]
+_C.MVIT.TIME_LEFT_RATIO = [0.375]
+_C.MVIT.TIME_SCORE = 'tpool'
+_C.MVIT.SPACE_PRUNING_LOC = [4]
+_C.MVIT.SPACE_LEFT_RATIO = [0.6174]
+_C.MVIT.SPACE_SCORE = 'spatch'
+
+#DATA
+_C.DATA = CfgNode()
+_C.DATA.NUM_FRAMES = 8
+_C.DATA.TRAIN_CROP_SIZE = 224
+_C.DATA.TEST_CROP_SIZE = 224
+_C.DATA.INPUT_CHANNEL_NUM = [3]
+_C.DATA.MEAN = [0.45, 0.45, 0.45]
+_C.DATA.STD = [0.225, 0.225, 0.225]
+
+
+#Model
+_C.MODEL = CfgNode()
+_C.MODEL.NUM_CLASSES = 174
+_C.MODEL.ACT_CHECKPOINT = False
+_C.MODEL.DROPOUT_RATE = 0.0
+_C.MODEL.HEAD_ACT = "softmax"
+_C.DATA.TRAIN_JITTER_SCALES = [256, 320]
+_C.DATA.INV_UNIFORM_SAMPLE = False
+_C.DATA.RANDOM_FLIP = True
+
+# ssts
+_C.MULTIGRID = CfgNode()
+_C.MULTIGRID.EPOCH_FACTOR = 1.5
+_C.MULTIGRID.SHORT_CYCLE = False
+_C.MULTIGRID.SHORT_CYCLE_FACTORS = [0.5, 0.5 ** 0.5]
+_C.MULTIGRID.LONG_CYCLE = False
+_C.MULTIGRID.LONG_CYCLE_FACTORS = [
+    (0.25, 0.5 ** 0.5),
+    (0.5, 0.5 ** 0.5),
+    (0.5, 1),
+    (1, 1),
+]
+_C.MULTIGRID.BN_BASE_SIZE = 8
+_C.MULTIGRID.LONG_CYCLE_SAMPLING_RATE = 0
+_C.MULTIGRID.DEFAULT_B = 0
+_C.MULTIGRID.DEFAULT_T = 0
+_C.MULTIGRID.DEFAULT_S = 0
+
+#Mixup
+_C.MIXUP = CfgNode()
+_C.MIXUP.ENABLE = False
+_C.MIXUP.ALPHA = 0.8
+_C.MIXUP.CUTMIX_ALPHA = 1.0
+_C.MIXUP.PROB = 1.0
+_C.MIXUP.SWITCH_PROB = 0.5
+_C.MIXUP.LABEL_SMOOTH_VALUE = 0.1
+
+
+_C.TEST = CfgNode()
+_C.TEST.ENABLE = True
+_C.TEST.DATASET = "ssv2"
+_C.TEST.BATCH_SIZE = 16
+_C.TEST.CHECKPOINT_FILE_PATH = ""
+_C.TEST.NUM_ENSEMBLE_VIEWS = 10
+_C.TEST.NUM_SPATIAL_CROPS = 3
+_C.TEST.SUBSET = "full"
+_C.TEST.CHECKPOINT_TYPE = "pytorch"
+_C.TEST.SAVE_RESULTS_PATH = ""
+
+#custom_config.add_custom_config(_C)
+
+def assert_and_infer_cfg(cfg):
+    return cfg
+
+
+def get_cfg():
+    """
+    Get a copy of the default config.
+    """
+    return _C.clone()
+NUM_SPATIAL_CROPS: 1

@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Model weights / checkpoints (downloaded separately, do not commit)
+*.pth
+*.pyth
+*.pt
+*.ckpt
+*.pkl
+checkpoints/
+outputs/
+results/
+logs/
+runs/
+
+# Training logs
+*.log
+
+# Archives
+*.zip
+*.tar.gz
+
+# Unused third-party clones (kept locally, not shipped)
+backbone_times/pycave/
+
+# Misc
+.DS_Store
